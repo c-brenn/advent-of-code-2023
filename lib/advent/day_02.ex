@@ -1,4 +1,4 @@
-defmodule Advent.DayTwo do
+defmodule Advent.Day02 do
   @type cubes() :: %{red: integer(), green: integer(), blue: integer()}
 
   @spec part_one(String.t(), cubes()) :: integer()

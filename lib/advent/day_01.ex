@@ -1,4 +1,4 @@
-defmodule Advent.DayOne do
+defmodule Advent.Day01 do
   @spec sum_calibration_document(String.t(), Keyword.t()) :: integer()
   def sum_calibration_document(document, opts \\ []) do
     document

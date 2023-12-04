@@ -1,7 +1,7 @@
-defmodule Advent.DayTwoTest do
+defmodule Advent.Day02Test do
   use ExUnit.Case, async: true
 
-  alias Advent.DayTwo
+  alias Advent.Day02
 
   describe "max_by_colour/1" do
     test "returns the maximum occurrences of each colour in the given game" do
@@ -16,7 +16,7 @@ defmodule Advent.DayTwoTest do
 
       maxes =
         String.split(games, "\n", trim: true)
-        |> Enum.map(&DayTwo.max_by_colour/1)
+        |> Enum.map(&Day02.max_by_colour/1)
 
       assert maxes == [
                %{red: 4, green: 2, blue: 6},
@@ -41,13 +41,13 @@ defmodule Advent.DayTwoTest do
 
       cubes = %{red: 12, green: 13, blue: 14}
 
-      assert DayTwo.part_one(games, cubes) == 8
+      assert Day02.part_one(games, cubes) == 8
     end
 
     test "input" do
       games = File.read!("priv/inputs/day-02.txt")
       cubes = %{red: 12, green: 13, blue: 14}
-      assert DayTwo.part_one(games, cubes) == 2348
+      assert Day02.part_one(games, cubes) == 2348
     end
   end
 
@@ -64,7 +64,7 @@ defmodule Advent.DayTwoTest do
       powers =
         games
         |> String.split("\n", trim: true)
-        |> Enum.map(&DayTwo.cube_power/1)
+        |> Enum.map(&Day02.cube_power/1)
 
       assert powers == [
                48,
@@ -86,13 +86,13 @@ defmodule Advent.DayTwoTest do
       Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
       """
 
-      assert DayTwo.part_two(games) == 2286
+      assert Day02.part_two(games) == 2286
     end
 
     test "input" do
       games = File.read!("priv/inputs/day-02.txt")
 
-      assert DayTwo.part_two(games) == 76008
+      assert Day02.part_two(games) == 76008
     end
   end
 end
