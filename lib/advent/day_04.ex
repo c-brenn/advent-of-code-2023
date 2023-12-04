@@ -52,7 +52,9 @@ defmodule Advent.Day04 do
       |> Enum.with_index()
       |> Enum.into(%{}, fn {v, k} -> {k, v} end)
 
-    search_cards(Map.to_list(lookup_table), 0, lookup_table)
+    indices = lookup_table |> Map.keys() |> Enum.sort()
+
+    search_cards(indices, lookup_table, %{})
   end
 
   defp matches(%Card{winning: winning, given: given}) do
@@ -62,23 +64,25 @@ defmodule Advent.Day04 do
     |> MapSet.size()
   end
 
-  defp search_cards([], count, _table), do: count
+  defp search_cards([], _table, copies) do
+    copies
+    |> Map.values()
+    |> Enum.sum()
+  end
 
-  defp search_cards([{idx, card} | rest], count, table) do
+  defp search_cards([idx | rest], table, copies) do
+    card = Map.fetch!(table, idx)
     matches = matches(card)
+    current_card_copies = Map.get(copies, idx, 0) + 1
+    end_copy_idx = min(map_size(table) - 1, idx + matches)
 
-    if matches == 0 do
-      search_cards(rest, count + 1, table)
-    else
-      indices =
-        (idx + 1)..(idx + matches)
-        |> Range.to_list()
+    copies =
+      idx..end_copy_idx
+      |> Enum.reduce(copies, fn i, acc ->
+        inc = if i == idx, do: 1, else: current_card_copies
+        Map.update(acc, i, inc, &(&1 + inc))
+      end)
 
-      new_cards =
-        Map.take(table, indices)
-        |> Map.to_list()
-
-      search_cards(new_cards ++ rest, count + 1, table)
-    end
+    search_cards(rest, table, copies)
   end
 end
