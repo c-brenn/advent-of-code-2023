@@ -46,15 +46,14 @@ defmodule Advent.Day04 do
 
   @spec part_two(String.t()) :: integer()
   def part_two(text) do
-    lookup_table =
+    cards =
       text
       |> to_cards()
       |> Enum.with_index()
-      |> Enum.into(%{}, fn {v, k} -> {k, v} end)
 
-    indices = lookup_table |> Map.keys() |> Enum.sort()
+    max_idx = Enum.count(cards) - 1
 
-    search_cards(indices, lookup_table, %{})
+    search_cards(cards, max_idx, %{})
   end
 
   defp matches(%Card{winning: winning, given: given}) do
@@ -64,17 +63,16 @@ defmodule Advent.Day04 do
     |> MapSet.size()
   end
 
-  defp search_cards([], _table, copies) do
+  defp search_cards([], _max_idx, copies) do
     copies
     |> Map.values()
     |> Enum.sum()
   end
 
-  defp search_cards([idx | rest], table, copies) do
-    card = Map.fetch!(table, idx)
+  defp search_cards([{card, idx} | rest], max_idx, copies) do
     matches = matches(card)
     current_card_copies = Map.get(copies, idx, 0) + 1
-    end_copy_idx = min(map_size(table) - 1, idx + matches)
+    end_copy_idx = min(max_idx, idx + matches)
 
     copies =
       idx..end_copy_idx
@@ -83,6 +81,6 @@ defmodule Advent.Day04 do
         Map.update(acc, i, inc, &(&1 + inc))
       end)
 
-    search_cards(rest, table, copies)
+    search_cards(rest, max_idx, copies)
   end
 end
