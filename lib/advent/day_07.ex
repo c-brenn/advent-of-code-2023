@@ -41,12 +41,12 @@ defmodule Advent.Day07 do
   defp run_round(round, opts) do
     round
     |> Parser.round()
-    |> Enum.map(fn %{hand: cards, bid: bid} ->
-      rank = hand_rank(cards, opts)
-      ranked_cards = Enum.map(cards, &rank_card(&1, opts))
-      %{hand: {rank, ranked_cards}, bid: bid}
-    end)
-    |> Enum.sort_by(& &1.hand, :asc)
+    |> Enum.sort_by(
+      fn %{hand: cards} ->
+        {hand_rank(cards, opts), Enum.map(cards, &rank_card(&1, opts))}
+      end,
+      :asc
+    )
     |> Enum.with_index(1)
     |> Enum.map(fn {%{bid: bid}, rank} -> bid * rank end)
     |> Enum.sum()
@@ -83,8 +83,7 @@ defmodule Advent.Day07 do
 
   defp count_cards(cards, opts) do
     cards
-    |> Enum.group_by(&Function.identity/1)
-    |> Enum.map(fn {k, v} -> {k, Enum.count(v)} end)
+    |> Enum.frequencies()
     |> Enum.sort_by(fn {_k, v} -> v end, :desc)
     |> then(fn c ->
       if Keyword.get(opts, :jokers?, false) do
