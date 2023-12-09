@@ -35,7 +35,6 @@ defmodule Advent.Day06 do
     text
     |> Parser.race_records()
     |> Enum.map(&count_winning_strategies/1)
-    |> IO.inspect()
     |> Enum.reduce(1, &(&1 * &2))
   end
 
