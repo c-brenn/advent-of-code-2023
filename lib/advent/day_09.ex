@@ -30,7 +30,7 @@ defmodule Advent.Day09 do
   end
 
   defp next_value([h | _] = readings) do
-    next_value(readings, [h])
+    next_value(readings, h)
   end
 
   defp next_value(current, acc) do
@@ -40,9 +40,9 @@ defmodule Advent.Day09 do
         |> Enum.chunk_every(2, 1, :discard)
         |> Enum.map(fn [x, y] -> x - y end)
 
-      next_value(next, [hd(next) | acc])
+      next_value(next, acc + hd(next))
     else
-      Enum.sum(acc)
+      acc
     end
   end
 end

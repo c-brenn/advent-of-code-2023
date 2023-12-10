@@ -96,7 +96,6 @@ defmodule Advent.Day05Test do
       assert Day05.part_two(@example_input) == 46
     end
 
-    @tag timeout: :infinity
     test "input" do
       almanac = File.read!("priv/inputs/day-05.txt")
 

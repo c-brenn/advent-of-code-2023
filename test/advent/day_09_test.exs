@@ -9,7 +9,7 @@ defmodule Advent.Day09Test do
   10 13 16 21 30 45
   """
 
-  describe "Parser.readings/1[]" do
+  describe "Parser.readings/1" do
     test "extracts the list of readings over time" do
       assert Day09.Parser.readings(@example_input) == [
                [0, 3, 6, 9, 12, 15],
