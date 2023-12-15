@@ -33,35 +33,13 @@ defmodule Advent.Day14 do
     count_load(state)
   end
 
-  def rotate(grid, :north_to_west) do
-    grid
-    |> Enum.reverse()
-    |> Enum.zip()
-    |> Enum.map(&(&1 |> Tuple.to_list() |> Enum.reverse()))
-  end
-
-  def rotate(grid, :west_to_south) do
-    grid
-    |> Enum.reverse()
-    |> Enum.zip()
-    |> Enum.map(&Tuple.to_list/1)
-    |> Enum.reverse()
-  end
-
-  def rotate(grid, :south_to_east) do
+  def transpose(grid) do
     grid
     |> Enum.zip()
     |> Enum.map(&Tuple.to_list/1)
   end
 
-  def rotate(grid, :east_to_north) do
-    grid
-    |> Enum.zip()
-    |> Enum.map(&(&1 |> Tuple.to_list() |> Enum.reverse()))
-    |> Enum.reverse()
-  end
-
-  def tilt(columns) do
+  def tilt(columns, sort_dir \\ :asc) do
     columns
     |> Enum.map(fn column ->
       column
@@ -74,7 +52,7 @@ defmodule Advent.Day14 do
             ?. -> 2
             ?# -> 4
           end,
-          :asc
+          sort_dir
         )
       end)
       |> Enum.concat()
@@ -82,11 +60,11 @@ defmodule Advent.Day14 do
   end
 
   def cycle(grid) do
-    [:north_to_west, :west_to_south, :south_to_east, :east_to_north]
-    |> Enum.reduce(grid, fn dir, acc ->
+    [:asc, :asc, :desc, :desc]
+    |> Enum.reduce(grid, fn sort_dir, acc ->
       acc
-      |> tilt()
-      |> rotate(dir)
+      |> tilt(sort_dir)
+      |> transpose()
     end)
   end
 

@@ -56,66 +56,6 @@ defmodule Advent.Day14Test do
     end
   end
 
-  describe "rotate/1" do
-    test "rotates -90 degrees" do
-      north = Day14.Parser.columns(@example_input)
-
-      assert north
-             |> Day14.rotate(:north_to_west)
-             |> Day14.rotate(:west_to_south)
-             |> Day14.rotate(:south_to_east)
-             |> Day14.rotate(:east_to_north) ==
-               north
-
-      west = Day14.rotate(north, :north_to_west)
-
-      assert west == [
-               ~c"O....#....",
-               ~c"O.OO#....#",
-               ~c".....##...",
-               ~c"OO.#O....O",
-               ~c".O.....O#.",
-               ~c"O.#..O.#.#",
-               ~c"..O..#O..O",
-               ~c".......O..",
-               ~c"#....###..",
-               ~c"#OO..#...."
-             ]
-
-      south = Day14.rotate(west, :west_to_south)
-
-      assert south == [
-               ~c"...O#.O.#.",
-               ~c".....#....",
-               ~c".#O.#O....",
-               ~c".#.O...#..",
-               ~c"##.#O..#.#",
-               ~c"......O.#.",
-               ~c"......#.O.",
-               ~c"O..O#...O.",
-               ~c"O....OO...",
-               ~c"##..O.O.OO"
-             ]
-
-      east = Day14.rotate(south, :south_to_east)
-
-      assert east == [
-               ~c"....#..OO#",
-               ~c"..###....#",
-               ~c"..O.......",
-               ~c"O..O#..O..",
-               ~c"#.#.O..#.O",
-               ~c".#O.....O.",
-               ~c"O....O#.OO",
-               ~c"...##.....",
-               ~c"#....#OO.O",
-               ~c"....#....O"
-             ]
-
-      assert Day14.rotate(east, :east_to_north) == north
-    end
-  end
-
   describe "cycle/1" do
     test "tilts in each direction" do
       grid = Day14.Parser.columns(@example_input)
